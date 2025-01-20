@@ -11,14 +11,16 @@
         <h2>Select Preferences</h2>
         <form id="preference-form">
             <label for="genre">Genre:</label>
-            <select id="genre" name="genre">
+            <select id="genre" name="genre" multiple>
+                <option value="no_preference" selected>No Preference</option>
                 <option value="rock">Rock</option>
                 <option value="pop">Pop</option>
                 <option value="alternative">Alternative</option>
             </select>
 
             <label for="level">Level:</label>
-            <select id="level" name="level">
+            <select id="level" name="level" multiple>
+                <option value="no_preference" selected>No Preference</option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
@@ -26,6 +28,7 @@
 
             <label for="skill">Technique/Skill:</label>
             <select id="skill" name="skill" multiple>
+                <option value="no_preference" selected>No Preference</option>
                 <option value="barre">Barre Chords</option>
                 <option value="strumming">Strumming Patterns</option>
                 <option value="fingerpicking">Fingerpicking</option>
@@ -36,7 +39,30 @@
     </div>
     <script>
         function submitPreferences() {
-            window.location.href = 'results.html'; // Navigate to results page
+            const genres = Array.from(document.getElementById('genre').selectedOptions).map(option => option.value);
+            const levels = Array.from(document.getElementById('level').selectedOptions).map(option => option.value);
+            const skills = Array.from(document.getElementById('skill').selectedOptions).map(option => option.value);
+
+            if (genres.includes('no_preference')) {
+                console.log("Genre: No Preference");
+            } else {
+                console.log("Selected Genres:", genres);
+            }
+
+            if (levels.includes('no_preference')) {
+                console.log("Level: No Preference");
+            } else {
+                console.log("Selected Levels:", levels);
+            }
+
+            if (skills.includes('no_preference')) {
+                console.log("Skill: No Preference");
+            } else {
+                console.log("Selected Skills:", skills);
+            }
+
+            // Navigate to results page
+            window.location.href = 'results.html';
         }
     </script>
 </body>
