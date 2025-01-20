@@ -11,7 +11,8 @@
         <h2>Select Chords</h2>
         <form id="filter-form">
             <label for="chords">Select Chords:</label>
-            <select id="chords" name="chords" multiple>
+            <p>Hold down <strong>Ctrl (Windows)</strong> or <strong>Cmd (Mac)</strong> to select multiple chords.</p>
+            <select id="chords" name="chords" multiple size="8">
                 <option value="C">C Major</option>
                 <option value="Cm">C Minor</option>
                 <option value="D">D Major</option>
@@ -33,7 +34,12 @@
     </div>
     <script>
         function goToNextPage() {
-            window.location.href = 'otherfilts.html'; // Navigate to the second filter page
+            const selectedChords = Array.from(document.getElementById('chords').selectedOptions).map(option => option.value);
+            if (selectedChords.length === 0) {
+                alert("Please select at least one chord before proceeding.");
+            } else {
+                window.location.href = 'otherfilts.html'; // Navigate to the second filter page
+            }
         }
     </script>
 </body>
