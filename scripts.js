@@ -1,39 +1,20 @@
-document.addEventListener("DOMContentLoaded", async function () {
-    const resultsDiv = document.getElementById("results");
-    const filterGenre = document.getElementById("filter-genre");
-    const filterLevel = document.getElementById("filter-level");
-    const filterSkills = document.getElementById("filter-skills");
-    const clearFiltersButton = document.getElementById("clear-filters");
+document.addEventListener('DOMContentLoaded', function () {
+    const resultsDiv = document.getElementById('results');
+    const genreSelect = document.getElementById('genre');
+    const levelSelect = document.getElementById('level');
+    const skillSelect = document.getElementById('skill');
 
-    // Fetch songs from the database
-    async function fetchSongs() {
-        const response = await fetch("https://your-github-link-to-json-or-api/songs.json");
-        return response.json();
+    // Fetch songs from the server (replace URL with your server endpoint)
+    async function fetchSongs(filters = {}) {
+        const query = new URLSearchParams(filters).toString();
+        const response = await fetch(`https://your-server-url/songs?${query}`);
+        const songs = await response.json();
+        return songs;
     }
 
-    // Placeholder for filters - replace these with actual user inputs from the filter page
-    const userFilters = {
-        genre: "rock",
-        level: "beginner",
-        skills: ["strumming"]
-    };
-
-    // Filter songs based on userFilters
-    function filterSongs(songs, filters) {
-        return songs.filter(song => {
-            const genreMatch = filters.genre === "All" || song.genre === filters.genre;
-            const levelMatch = filters.level === "All" || song.level === filters.level;
-            const skillsMatch =
-                filters.skills.length === 0 ||
-                filters.skills.every(skill => song.skills.includes(skill));
-            return genreMatch && levelMatch && skillsMatch;
-        });
-    }
-
-    // Render songs to the resultsDiv
+    // Render songs in the results section
     function renderSongs(songs) {
         resultsDiv.innerHTML = "";
-
         if (songs.length > 0) {
             songs.forEach(song => {
                 resultsDiv.innerHTML += `
@@ -50,30 +31,33 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // Initialize filters and render results
-    async function initialize() {
+    // Apply filters and fetch data
+    async function applyFilters() {
+        const filters = {
+            genre: genreSelect.value === "all" ? null : genreSelect.value,
+            level: levelSelect.value === "all" ? null : levelSelect.value,
+            skill: [...skillSelect.selectedOptions].map(option => option.value).includes("all")
+                ? null
+                : [...skillSelect.selectedOptions].map(option => option.value),
+        };
+
+        const songs = await fetchSongs(filters);
+        renderSongs(songs);
+    }
+
+    // Clear filters and fetch all songs
+    async function clearFilters() {
+        genreSelect.value = "all";
+        levelSelect.value = "all";
+        skillSelect.value = "all";
         const songs = await fetchSongs();
+        renderSongs(songs);
+    }
 
-        // Display filters on the bar
-        filterGenre.textContent = userFilters.genre || "All";
-        filterLevel.textContent = userFilters.level || "All";
-        filterSkills.textContent = userFilters.skills.length > 0 ? userFilters.skills.join(", ") : "All";
+    // Initial render
+    applyFilters();
+});
 
-        // Filter and render songs
-        const filteredSongs = filterSongs(songs, userFilters);
-        renderSongs(filteredSongs);
-
-        // Clear filters functionality
-        clearFiltersButton.addEventListener("click", () => {
-            userFilters.genre = "All";
-            userFilters.level = "All";
-            userFilters.skills = [];
-            filterGenre.textContent = "All";
-            filterLevel.textContent = "All";
-            filterSkills.textContent = "All";
-
-            renderSongs(songs); // Render all songs
-        });
     }
 
     initialize();
