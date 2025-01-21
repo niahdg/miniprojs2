@@ -10,41 +10,41 @@
     <div class="container">
         <h2>Your Song Matches</h2>
         
-        <!-- Filter bar -->
-        <div id="filter-bar">
-            <form id="filter-form">
+        <!-- Filters Bar -->
+        <div class="filters-bar">
+            <form id="filters-form">
                 <label for="genre">Genre:</label>
                 <select id="genre" name="genre">
-                    <option value="all">All</option>
-                    <option value="rock">Rock</option>
-                    <option value="pop">Pop</option>
-                    <option value="alternative">Alternative</option>
+                    <option value="">No Preference</option>
+                    <option value="Pop">Pop</option>
+                    <option value="Rock">Rock</option>
+                    <option value="Country">Country</option>
                 </select>
 
                 <label for="level">Level:</label>
                 <select id="level" name="level">
-                    <option value="all">All</option>
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate">Intermediate</option>
-                    <option value="advanced">Advanced</option>
+                    <option value="">No Preference</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
                 </select>
 
-                <label for="skill">Skill:</label>
-                <select id="skill" name="skill" multiple>
-                    <option value="all">All</option>
-                    <option value="strumming">Strumming</option>
-                    <option value="fingerpicking">Fingerpicking</option>
-                    <option value="barre">Barre Chords</option>
+                <label for="skills">Skill:</label>
+                <select id="skills" name="skills" multiple>
+                    <option value="Strumming">Strumming</option>
+                    <option value="Fingerpicking">Fingerpicking</option>
+                    <option value="Barre Chords">Barre Chords</option>
                 </select>
 
-                <button type="button" onclick="applyFilters()">Apply Filters</button>
-                <button type="button" onclick="clearFilters()">Clear Filters</button>
+                <button type="button" id="apply-filters">Apply Filters</button>
+                <button type="button" id="clear-filters">Clear Filters</button>
             </form>
         </div>
-        
-        <!-- Results section -->
+
+        <!-- Results Section -->
         <div id="results"></div>
     </div>
     <script src="scripts.js"></script>
 </body>
 </html>
+
