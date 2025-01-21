@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select the Chords You Want to Learn</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h2>Select Chords</h2>
         <form id="filter-form">
             <label for="chords">Select Chords:</label>
-            <p>Hold down <strong>Ctrl (Windows)</strong> or <strong>Cmd (Mac)</strong> to select multiple chords.</p>
-            <select id="chords" name="chords" multiple size="8">
+            <select id="chords" name="chords" multiple>
                 <option value="C">C Major</option>
                 <option value="Cm">C Minor</option>
                 <option value="D">D Major</option>
@@ -29,15 +35,20 @@
                 <option value="Bm">B Minor</option>
             </select>
             <br><br>
-            <button type="button" onclick="goToNextPage()">Next</button>
+            <button type="button" onclick="validateSelection()">Next</button>
+            <div id="error-message" class="error"></div>
         </form>
     </div>
     <script>
-        function goToNextPage() {
-            const selectedChords = Array.from(document.getElementById('chords').selectedOptions).map(option => option.value);
-            if (selectedChords.length === 0) {
-                alert("Please select at least one chord before proceeding.");
+        function validateSelection() {
+            const chords = document.getElementById('chords');
+            const selectedOptions = Array.from(chords.selectedOptions);
+            const errorMessage = document.getElementById('error-message');
+
+            if (selectedOptions.length < 3) {
+                errorMessage.textContent = 'Error! Please select at least 3 chords.';
             } else {
+                errorMessage.textContent = '';
                 window.location.href = 'otherfilts.html'; // Navigate to the second filter page
             }
         }
